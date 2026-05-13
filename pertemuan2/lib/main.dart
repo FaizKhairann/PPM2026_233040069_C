@@ -179,23 +179,41 @@ class GalleryHome extends StatelessWidget { // [cite: 1547]
 }
 
 //CLASS CATEGORYPAGE
-class CategoryPage extends StatelessWidget { // [cite: 1591]
+//CLASS CATEGORYPAGE
+//CLASS CATEGORYPAGE
+class CategoryPage extends StatelessWidget {
   final String name;
   const CategoryPage({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
     Widget body;
-    switch (name) { // [cite: 1597]
+    switch (name) {
       case 'Display':
-        body = const _DisplayDemo(); // [cite: 1600]
+        body = const _DisplayDemo();
         break;
+      case 'Input':
+        body = const _InputDemo();
+        break;
+    // TAMBAHKAN CASE BUTTON DI SINI:
+      case 'Button':
+        body = const _ButtonDemo(); // Memanggil class Button yang sudah kamu buat
+        break;
+
+
+      case 'Feedback':
+        body = const _FeedbackDemo();
+        break;
+      case 'Layout':
+        body = const _LayoutDemo();
+        break;
+    // ----------------------------
       default:
-        body = Center(child: Text('Konten $name belum dibuat bang')); // [cite: 1612]
+        body = Center(child: Text('Konten $name belum dibuat bang'));
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(name)), // [cite: 1614]
+      appBar: AppBar(title: Text(name)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: body,
@@ -289,7 +307,7 @@ class _InputDemoState extends State<_InputDemo> {
           const Text('Dropdown'),
           DropdownButton<String>(
             value: _dropdown,
-            items: ['Apel', 'Jeruk', 'Mangga']
+            items: ['Nanas', 'Jeruk', 'Rambutan']
                 .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                 .toList(),
             onChanged: (v) => setState(() => _dropdown = v),
@@ -297,4 +315,150 @@ class _InputDemoState extends State<_InputDemo> {
         ],
     );
   }
+}
+
+//DEMO BUTTON
+class _ButtonDemo extends StatelessWidget {
+  const _ButtonDemo();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElevatedButton(onPressed: () {}, child: const Text('Elevated')),
+        const SizedBox(height: 8),
+        FilledButton(onPressed: () {}, child: const Text('Filled')),
+        const SizedBox(height: 8),
+        OutlinedButton(onPressed: () {}, child: const Text('Outlined')),
+        const SizedBox(height: 8),
+        TextButton(onPressed: () {}, child: const Text('Text Button')),
+        const SizedBox(height: 8),
+        ElevatedButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.send),
+          label: const Text('Dengan Icon'),
+        ),
+        const SizedBox(height: 8),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.favorite, color: Colors.red),
+        ),
+      ],
+    );
+  }
+}
+
+//DEMO FEEDBACK
+class _FeedbackDemo extends StatelessWidget {
+  const _FeedbackDemo();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Halo dari SnackBar!')),
+            );
+          },
+          child: const Text('Tampilkan SnackBar'),
+        ),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                    title: const Text('Konfirmasi'),
+                    content: const Text('Yakin ingin lanjut?'),
+                    actions: [
+                    TextButton(
+                    onPressed: () => Navigator.pop(context),
+            child: const Text('Batal'),
+            ),
+            ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Ya'),
+            ),
+            ],
+            ),
+            );
+          },
+          child: const Text('Tampilkan Dialog'),
+        ),
+        const SizedBox(height: 16),
+        const Text('Progress Indicator:'),
+        const SizedBox(height: 8),
+        const LinearProgressIndicator(value: 0.6),
+        const SizedBox(height: 12),
+        const Center(child: CircularProgressIndicator()),
+      ],
+    );
+  }
+}
+
+//DEMO LAYOUT
+class _LayoutDemo extends StatelessWidget {
+  const _LayoutDemo();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Stack — widget bertumpuk'),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 120,
+          child: Stack(
+              children: [
+              Container(width: double.infinity, color: Colors.blue.shade100),
+          Positioned(
+            top: 12, left: 12,
+            child: Container(width: 50, height: 50, color: Colors.red),
+          ),
+          const Positioned(
+              bottom: 12, right: 12,
+              child: Icon(Icons.star, size: 40, color: Colors.amber),
+        ),
+      ],
+    ),
+    ),
+    const SizedBox(height: 16),
+    const Text('Wrap — auto-pindah baris saat penuh'),
+    const SizedBox(height: 8),
+    Wrap(
+    spacing: 8,
+    runSpacing: 8,
+    children: List.generate(
+    8,
+    (i) => Container(
+    padding: const EdgeInsets.all(12),
+    color: Colors.teal.shade100,
+    child: Text('Item ${i + 1}'),
+    ),
+    ),
+    ),
+    const SizedBox(height: 16),
+    const Text('GridView (count: 3)'),
+    const SizedBox(height: 8),
+    SizedBox(
+    height: 200,
+    child: GridView.count(
+    crossAxisCount: 3,
+    mainAxisSpacing: 8,
+    crossAxisSpacing: 8,
+    children: List.generate(
+    6,
+    (i) => Container(
+    color: Colors.purple.shade100,
+    alignment: Alignment.center,
+    child: Text('${i + 1}'),
+    ),
+    ),
+    ),
+    ),
+    ],
+    );
+    }
 }
