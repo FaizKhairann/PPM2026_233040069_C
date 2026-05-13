@@ -36,7 +36,26 @@ class ProfilePage extends StatelessWidget {
             ),
             ListTile(leading: Icon(Icons.home), title: Text('Beranda')),
             ListTile(leading: Icon(Icons.person), title: Text('Profil')),
-            ListTile(leading: Icon(Icons.settings), title: Text('Pengaturan')),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Pengaturan'),
+              onTap: () {
+                // TUGAS MANDIRI: AlertDialog
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Pengaturan'),
+                    content: const Text('Halaman pengaturan sedang dalam pengembangan.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.widgets),
               title: const Text('Widget Gallery'),
@@ -61,7 +80,11 @@ class ProfilePage extends StatelessWidget {
             const Center(
               child: Column(
                 children: [
-                  CircleAvatar(radius: 50, child: Icon(Icons.person, size: 60)), // [cite: 1420]
+                  CircleAvatar(
+                    radius: 50,
+                    // TUGAS MANDIRI 1: Menggunakan foto lokal dari assets
+                    backgroundImage: const AssetImage('asset/kumcing.jpg'),
+                  ), // [cite: 1420]
                   SizedBox(height: 12), // [cite: 1425]
                   Text('Faiz Khairann', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)), // [cite: 1427]
                   Text('Mahasiswa Teknik Informatika', style: TextStyle(color: Colors.grey)), // [cite: 1431]
@@ -79,21 +102,58 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 24), // [cite: 1441]
             const SectionCard(icon: Icons.info, title: 'Tentang Saya', content: 'Belajar Flutter Modul 2.'), // [cite: 1443]
             const SectionCard(icon: Icons.school, title: 'Pendidikan', content: 'Universitas Pasundan'), // [cite: 1449]
-            const SizedBox(height: 80), // [cite: 1465]
+
+
+            // TUGAS MANDIRI: Section Skills dengan Wrap & Chip
+            const Text('Skills', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: const [
+                Chip(label: Text('Java')),
+                Chip(label: Text('Laravel')),
+                Chip(label: Text('Flutter')),
+                Chip(label: Text('Dart')),
+                Chip(label: Text('SQL')),
+              ],
+            ),
+            const SizedBox(height: 80),
           ],
         ),
       ),
       // --- AKHIR BODY ---
-      floatingActionButton: FloatingActionButton( // [cite: 1332]
-        onPressed: () {},
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TUGAS MANDIRI: SnackBar
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Edit profil belum tersedia')),
+          );
+        },
         child: const Icon(Icons.edit),
       ),
-      bottomNavigationBar: BottomNavigationBar( // [cite: 1336]
-        currentIndex: 1,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
+      // TUGAS BONUS: Menggunakan NavigationBar (Material 3)
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 1, // Menentukan tab mana yang aktif
+        onDestinationSelected: (int index) {
+
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings_outlined),
+            selectedIcon: Icon(Icons.settings),
+            label: 'Setting',
+          ),
         ],
       ),
     ); // Penutup Scaffold
@@ -228,40 +288,40 @@ class _DisplayDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         const Text('Card', style: TextStyle(fontWeight: FontWeight.bold)),
-    const Card(
-    child: ListTile(
-    leading: Icon(Icons.album),
-    title: Text('Judul Item'),
-    subtitle: Text('Sub-judul'),
-    ),
-    ),
-    const SizedBox(height: 16),
-    const Text('Chip', style: TextStyle(fontWeight: FontWeight.bold)),
-    Wrap(
-    spacing: 8,
-    children: const [
-      Chip(label: Text('Flutter')),
-      Chip(label: Text('Dart')),
-      Chip(label: Text('Mobile')),
-    ],
-    ),
-          const SizedBox(height: 16),
-          const Text('Divider', style: TextStyle(fontWeight: FontWeight.bold)),
-          const Divider(thickness: 2),
-          const SizedBox(height: 16),
-          const Text('CircleAvatar & Icon',
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          Row(children: const [
-            CircleAvatar(child: Text('A')),
-            SizedBox(width: 12),
-            CircleAvatar(backgroundColor: Colors.green, child: Icon(Icons.check)),
-            SizedBox(width: 12),
-            Icon(Icons.star, color: Colors.amber, size: 40),
-          ]),
-        ],
+        const Card(
+          child: ListTile(
+            leading: Icon(Icons.album),
+            title: Text('Judul Item'),
+            subtitle: Text('Sub-judul'),
+          ),
+        ),
+        const SizedBox(height: 16),
+        const Text('Chip', style: TextStyle(fontWeight: FontWeight.bold)),
+        Wrap(
+          spacing: 8,
+          children: const [
+            Chip(label: Text('Flutter')),
+            Chip(label: Text('Dart')),
+            Chip(label: Text('Mobile')),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const Text('Divider', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Divider(thickness: 2),
+        const SizedBox(height: 16),
+        const Text('CircleAvatar & Icon',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        Row(children: const [
+          CircleAvatar(child: Text('A')),
+          SizedBox(width: 12),
+          CircleAvatar(backgroundColor: Colors.green, child: Icon(Icons.check)),
+          SizedBox(width: 12),
+          Icon(Icons.star, color: Colors.amber, size: 40),
+        ]),
+      ],
     );
   }
 }
@@ -275,44 +335,44 @@ class _InputDemoState extends State<_InputDemo> {
   bool _checked = false;
   bool _switched = true;
   double _slider = 0.5;
-  String? _dropdown = 'Apel';
+  String? _dropdown = 'Nanas';
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         const Text('TextField'),
-    const SizedBox(height: 4),
-    const TextField(
-    decoration: InputDecoration(
-    border: OutlineInputBorder(),
-    labelText: 'Nama',
-    hintText: 'Ketik nama Anda',
-    ),
-    ),
-    const SizedBox(height: 16),
-    CheckboxListTile(
-    title: const Text('Checkbox'),
-    value: _checked,
-      onChanged: (v) => setState(() => _checked = v ?? false),
-    ),
-          SwitchListTile(
-            title: const Text('Switch'),
-            value: _switched,
-            onChanged: (v) => setState(() => _switched = v),
+        const SizedBox(height: 4),
+        const TextField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Nama',
+            hintText: 'Ketik nama Anda',
           ),
-          const Text('Slider'),
-          Slider(value: _slider, onChanged: (v) => setState(() => _slider = v)),
-          const SizedBox(height: 8),
-          const Text('Dropdown'),
-          DropdownButton<String>(
-            value: _dropdown,
-            items: ['Nanas', 'Jeruk', 'Rambutan']
-                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                .toList(),
-            onChanged: (v) => setState(() => _dropdown = v),
-          ),
-        ],
+        ),
+        const SizedBox(height: 16),
+        CheckboxListTile(
+          title: const Text('Checkbox'),
+          value: _checked,
+          onChanged: (v) => setState(() => _checked = v ?? false),
+        ),
+        SwitchListTile(
+          title: const Text('Switch'),
+          value: _switched,
+          onChanged: (v) => setState(() => _switched = v),
+        ),
+        const Text('Slider'),
+        Slider(value: _slider, onChanged: (v) => setState(() => _slider = v)),
+        const SizedBox(height: 8),
+        const Text('Dropdown'),
+        DropdownButton<String>(
+          value: _dropdown,
+          items: ['Nanas', 'Jeruk', 'Rambutan']
+              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+              .toList(),
+          onChanged: (v) => setState(() => _dropdown = v),
+        ),
+      ],
     );
   }
 }
@@ -368,21 +428,21 @@ class _FeedbackDemo extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                    title: const Text('Konfirmasi'),
-                    content: const Text('Yakin ingin lanjut?'),
-                    actions: [
-                    TextButton(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: const Text('Konfirmasi'),
+                content: const Text('Yakin ingin lanjut?'),
+                actions: [
+                  TextButton(
                     onPressed: () => Navigator.pop(context),
-            child: const Text('Batal'),
-            ),
-            ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Ya'),
-            ),
-            ],
-            ),
+                    child: const Text('Batal'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Ya'),
+                  ),
+                ],
+              ),
             );
           },
           child: const Text('Tampilkan Dialog'),
@@ -411,54 +471,54 @@ class _LayoutDemo extends StatelessWidget {
         SizedBox(
           height: 120,
           child: Stack(
-              children: [
+            children: [
               Container(width: double.infinity, color: Colors.blue.shade100),
-          Positioned(
-            top: 12, left: 12,
-            child: Container(width: 50, height: 50, color: Colors.red),
+              Positioned(
+                top: 12, left: 12,
+                child: Container(width: 50, height: 50, color: Colors.red),
+              ),
+              const Positioned(
+                bottom: 12, right: 12,
+                child: Icon(Icons.star, size: 40, color: Colors.amber),
+              ),
+            ],
           ),
-          const Positioned(
-              bottom: 12, right: 12,
-              child: Icon(Icons.star, size: 40, color: Colors.amber),
+        ),
+        const SizedBox(height: 16),
+        const Text('Wrap — auto-pindah baris saat penuh'),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: List.generate(
+            8,
+                (i) => Container(
+              padding: const EdgeInsets.all(12),
+              color: Colors.teal.shade100,
+              child: Text('Item ${i + 1}'),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        const Text('GridView (count: 3)'),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 200,
+          child: GridView.count(
+            crossAxisCount: 3,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            children: List.generate(
+              6,
+                  (i) => Container(
+                color: Colors.purple.shade100,
+                alignment: Alignment.center,
+                child: Text('${i + 1}'),
+              ),
+            ),
+          ),
         ),
       ],
-    ),
-    ),
-    const SizedBox(height: 16),
-    const Text('Wrap — auto-pindah baris saat penuh'),
-    const SizedBox(height: 8),
-    Wrap(
-    spacing: 8,
-    runSpacing: 8,
-    children: List.generate(
-    8,
-    (i) => Container(
-    padding: const EdgeInsets.all(12),
-    color: Colors.teal.shade100,
-    child: Text('Item ${i + 1}'),
-    ),
-    ),
-    ),
-    const SizedBox(height: 16),
-    const Text('GridView (count: 3)'),
-    const SizedBox(height: 8),
-    SizedBox(
-    height: 200,
-    child: GridView.count(
-    crossAxisCount: 3,
-    mainAxisSpacing: 8,
-    crossAxisSpacing: 8,
-    children: List.generate(
-    6,
-    (i) => Container(
-    color: Colors.purple.shade100,
-    alignment: Alignment.center,
-    child: Text('${i + 1}'),
-    ),
-    ),
-    ),
-    ),
-    ],
     );
-    }
+  }
 }
